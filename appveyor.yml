@@ -22,8 +22,11 @@ shallow_clone: true
 install:
   - cd c:\projects
   - git clone https://github.com/JamesNK/Newtonsoft.Json
+  - cd Newtonsoft.Json
+  - git checkout 10.0.3
+  - cd -
 
 build:
   parallel: true                  # enable MSBuild parallel builds
   project: IFME.sln               # path to Visual Studio solution or project
-  verbosity: detailed             # MSBuild verbosity level : quiet|minimal|normal|detailed
+  verbosity: minimal              # MSBuild verbosity level : quiet|minimal|normal|detailed
