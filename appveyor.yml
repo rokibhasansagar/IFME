@@ -21,6 +21,8 @@ shallow_clone: true
 
 install:
   - cd c:\projects
+  - curl -sL https://github.com/Anime4000/IFME/releases/download/20.04.1-alpha/IFME-20.04.1_Debug.zip -o IFME-20.04.1_Debug.zip
+  - 7z l IFME-20.04.1_Debug.zip && 7z x IFME-20.04.1_Debug.zip && rm IFME-20.04.1_Debug.zip
   - git clone https://github.com/JamesNK/Newtonsoft.Json
   - cd Newtonsoft.Json
   - git checkout 10.0.2
@@ -29,4 +31,4 @@ install:
 build:
   parallel: true                  # enable MSBuild parallel builds
   project: IFME.sln               # path to Visual Studio solution or project
-  verbosity: minimal              # MSBuild verbosity level : quiet|minimal|normal|detailed
+  verbosity: normal               # MSBuild verbosity level : quiet|minimal|normal|detailed
