@@ -123,10 +123,19 @@
     <None Include="Mime.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Profiles\Profile_00000000-0000-0000-0000-000000000000.json">
+    <None Include="Profiles\Profile_0000-00-00_00-00-00_0002.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Profiles\Profile_00000000-0000-0000-0000-000000000002.json">
+    <None Include="Profiles\Profile_0000-00-00_00-00-00_0000.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Profiles\Profile_0000-00-00_00-00-00_0003.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Profiles\Profile_0000-00-00_00-00-00_0004.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Profiles\Profile_0000-00-00_00-00-00_0006.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
@@ -166,12 +175,17 @@
     <None Include="Resources\ifme-zenui.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Profiles\Profile_00000000-0000-0000-0000-000000000001.json">
+    <None Include="Profiles\Profile_0000-00-00_00-00-00_0001.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SplashScreen7A_DPI.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Profiles\Profile_0000-00-00_00-00-00_0005.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

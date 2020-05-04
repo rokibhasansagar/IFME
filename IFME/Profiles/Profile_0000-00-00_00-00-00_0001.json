@@ -1,5 +1,5 @@
 ﻿{
-	"ProfileName": "x264 High Compression & Quality",
+	"ProfileName": "High Compression & Quality (x264 AAC)",
 	"ProfileAuthor": "Anime4000",
 	"Container": "mp4",
 	"Video": {
@@ -18,7 +18,8 @@
 			"FrameRate": 0,
 			"BitDepth": 8,
 			"PixelFormat": 420,
-			"Command": ""
+			"Command": "",
+			"CommandFilter": ""
 		},
 		"DeInterlace": {
 			"Enable": false,
@@ -36,6 +37,7 @@
 			"Command": ""
 		},
 		"Copy": false,
-		"Command": ""
+		"Command": "",
+		"CommandFilter": ""
 	}
 }

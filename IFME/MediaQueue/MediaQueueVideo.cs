@@ -28,6 +28,8 @@ namespace IFME
     {
         public int Width { get; set; }
         public int Height { get; set; }
+        public int OriginalWidth { get; set; }
+        public int OriginalHeight { get; set; }
         public bool IsVFR { get; set; }
         public float FrameRate { get; set; }
         public float FrameRateAvg { get; set; }
@@ -35,6 +37,7 @@ namespace IFME
         public int BitDepth { get; set; }
         public int PixelFormat { get; set; }
         public string Command { get; set; }
+        public string CommandFilter { get; set; }
     }
 
     public class MediaQueueVideoDeInterlace

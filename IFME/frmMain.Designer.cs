@@ -144,6 +144,8 @@
             this.Seperator3 = new System.Windows.Forms.Label();
             this.btnVideoDel = new System.Windows.Forms.Button();
             this.tabConfig = new System.Windows.Forms.TabControl();
+            this.tabConfigMediaInfo = new System.Windows.Forms.TabPage();
+            this.txtMediaInfo = new System.Windows.Forms.TextBox();
             this.lstFile = new System.Windows.Forms.ListView();
             this.colFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colFileType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -163,7 +165,15 @@
             this.cmsFileAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiImportFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiImportFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiImportImgSeq = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiImportYouTube = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsProfiles = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiProfilesSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiProfilesRename = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiProfilesDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsPower = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiPowerOff = new System.Windows.Forms.ToolStripMenuItem();
             this.tabConfigSubtitle.SuspendLayout();
             this.grpAudioCodec.SuspendLayout();
             this.tabConfigAudio.SuspendLayout();
@@ -179,7 +189,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudVideoMultiPass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVideoRateFactor)).BeginInit();
             this.tabConfig.SuspendLayout();
+            this.tabConfigMediaInfo.SuspendLayout();
             this.cmsFileAdd.SuspendLayout();
+            this.cmsProfiles.SuspendLayout();
+            this.cmsPower.SuspendLayout();
             this.SuspendLayout();
             // 
             // cboSubLang
@@ -772,6 +785,8 @@
             this.btnProfileSaveLoad.Size = new System.Drawing.Size(24, 24);
             this.btnProfileSaveLoad.TabIndex = 15;
             this.btnProfileSaveLoad.UseVisualStyleBackColor = true;
+            this.btnProfileSaveLoad.Click += new System.EventHandler(this.btnProfileSaveLoad_Click);
+            this.btnProfileSaveLoad.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnProfileSaveLoad_MouseUp);
             // 
             // cboProfile
             // 
@@ -807,6 +822,7 @@
             this.txtOutputPath.Name = "txtOutputPath";
             this.txtOutputPath.Size = new System.Drawing.Size(610, 24);
             this.txtOutputPath.TabIndex = 17;
+            this.txtOutputPath.TextChanged += new System.EventHandler(this.txtOutputPath_TextChanged);
             // 
             // lblOutputPath
             // 
@@ -903,9 +919,9 @@
             this.chkAdvTrim.AutoSize = true;
             this.chkAdvTrim.Location = new System.Drawing.Point(15, 6);
             this.chkAdvTrim.Name = "chkAdvTrim";
-            this.chkAdvTrim.Size = new System.Drawing.Size(115, 17);
+            this.chkAdvTrim.Size = new System.Drawing.Size(266, 17);
             this.chkAdvTrim.TabIndex = 0;
-            this.chkAdvTrim.Text = "&Trim Video && Audio";
+            this.chkAdvTrim.Text = "&Trim Video && Audio (Copy stream wont effect this)";
             this.chkAdvTrim.UseVisualStyleBackColor = true;
             this.chkAdvTrim.CheckedChanged += new System.EventHandler(this.chkAdvTrim_CheckedChanged);
             // 
@@ -1495,6 +1511,7 @@
             this.tabConfig.AllowDrop = true;
             this.tabConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabConfig.Controls.Add(this.tabConfigMediaInfo);
             this.tabConfig.Controls.Add(this.tabConfigVideo);
             this.tabConfig.Controls.Add(this.tabConfigAudio);
             this.tabConfig.Controls.Add(this.tabConfigSubtitle);
@@ -1507,6 +1524,28 @@
             this.tabConfig.SelectedIndex = 0;
             this.tabConfig.Size = new System.Drawing.Size(776, 292);
             this.tabConfig.TabIndex = 11;
+            // 
+            // tabConfigMediaInfo
+            // 
+            this.tabConfigMediaInfo.Controls.Add(this.txtMediaInfo);
+            this.tabConfigMediaInfo.Location = new System.Drawing.Point(4, 24);
+            this.tabConfigMediaInfo.Name = "tabConfigMediaInfo";
+            this.tabConfigMediaInfo.Size = new System.Drawing.Size(768, 264);
+            this.tabConfigMediaInfo.TabIndex = 6;
+            this.tabConfigMediaInfo.Text = "Media Info";
+            this.tabConfigMediaInfo.UseVisualStyleBackColor = true;
+            // 
+            // txtMediaInfo
+            // 
+            this.txtMediaInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtMediaInfo.Location = new System.Drawing.Point(0, 0);
+            this.txtMediaInfo.Multiline = true;
+            this.txtMediaInfo.Name = "txtMediaInfo";
+            this.txtMediaInfo.ReadOnly = true;
+            this.txtMediaInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtMediaInfo.Size = new System.Drawing.Size(768, 264);
+            this.txtMediaInfo.TabIndex = 0;
+            this.txtMediaInfo.WordWrap = false;
             // 
             // lstFile
             // 
@@ -1590,6 +1629,7 @@
             this.btnStart.TabIndex = 8;
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnStart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnStart_MouseDown);
             // 
             // btnStop
             // 
@@ -1665,30 +1705,90 @@
             this.cmsFileAdd.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiImportFiles,
             this.tsmiImportFolder,
+            this.tsmiImportImgSeq,
+            this.toolStripSeparator1,
             this.tsmiImportYouTube});
             this.cmsFileAdd.Name = "cmsFileAdd";
-            this.cmsFileAdd.Size = new System.Drawing.Size(152, 70);
+            this.cmsFileAdd.Size = new System.Drawing.Size(190, 98);
             // 
             // tsmiImportFiles
             // 
             this.tsmiImportFiles.Name = "tsmiImportFiles";
-            this.tsmiImportFiles.Size = new System.Drawing.Size(151, 22);
+            this.tsmiImportFiles.Size = new System.Drawing.Size(189, 22);
             this.tsmiImportFiles.Text = "Import &Files";
             this.tsmiImportFiles.Click += new System.EventHandler(this.tsmiImportFiles_Click);
             // 
             // tsmiImportFolder
             // 
             this.tsmiImportFolder.Name = "tsmiImportFolder";
-            this.tsmiImportFolder.Size = new System.Drawing.Size(151, 22);
+            this.tsmiImportFolder.Size = new System.Drawing.Size(189, 22);
             this.tsmiImportFolder.Text = "Import Fol&der";
             this.tsmiImportFolder.Click += new System.EventHandler(this.tsmiImportFolder_Click);
+            // 
+            // tsmiImportImgSeq
+            // 
+            this.tsmiImportImgSeq.Name = "tsmiImportImgSeq";
+            this.tsmiImportImgSeq.Size = new System.Drawing.Size(189, 22);
+            this.tsmiImportImgSeq.Text = "Import &Image Sequence";
+            this.tsmiImportImgSeq.Click += new System.EventHandler(this.tsmiImportImgSeq_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
             // 
             // tsmiImportYouTube
             // 
             this.tsmiImportYouTube.Name = "tsmiImportYouTube";
-            this.tsmiImportYouTube.Size = new System.Drawing.Size(151, 22);
+            this.tsmiImportYouTube.Size = new System.Drawing.Size(189, 22);
             this.tsmiImportYouTube.Text = "Import &YouTube";
             this.tsmiImportYouTube.Click += new System.EventHandler(this.tsmiImportYouTube_Click);
+            // 
+            // cmsProfiles
+            // 
+            this.cmsProfiles.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.cmsProfiles.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiProfilesSave,
+            this.tsmiProfilesRename,
+            this.tsmiProfilesDelete});
+            this.cmsProfiles.Name = "cmsProfiles";
+            this.cmsProfiles.Size = new System.Drawing.Size(114, 70);
+            // 
+            // tsmiProfilesSave
+            // 
+            this.tsmiProfilesSave.Name = "tsmiProfilesSave";
+            this.tsmiProfilesSave.Size = new System.Drawing.Size(113, 22);
+            this.tsmiProfilesSave.Text = "&Save As";
+            this.tsmiProfilesSave.Click += new System.EventHandler(this.tsmiProfilesSave_Click);
+            // 
+            // tsmiProfilesRename
+            // 
+            this.tsmiProfilesRename.Name = "tsmiProfilesRename";
+            this.tsmiProfilesRename.Size = new System.Drawing.Size(113, 22);
+            this.tsmiProfilesRename.Text = "&Rename";
+            this.tsmiProfilesRename.Click += new System.EventHandler(this.tsmiProfilesRename_Click);
+            // 
+            // tsmiProfilesDelete
+            // 
+            this.tsmiProfilesDelete.Name = "tsmiProfilesDelete";
+            this.tsmiProfilesDelete.Size = new System.Drawing.Size(113, 22);
+            this.tsmiProfilesDelete.Text = "&Delete";
+            this.tsmiProfilesDelete.Click += new System.EventHandler(this.tsmiProfilesDelete_Click);
+            // 
+            // cmsPower
+            // 
+            this.cmsPower.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.cmsPower.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiPowerOff});
+            this.cmsPower.Name = "cmsPower";
+            this.cmsPower.Size = new System.Drawing.Size(198, 26);
+            // 
+            // tsmiPowerOff
+            // 
+            this.tsmiPowerOff.Name = "tsmiPowerOff";
+            this.tsmiPowerOff.Size = new System.Drawing.Size(197, 22);
+            this.tsmiPowerOff.Text = "Shutdown when complete";
+            this.tsmiPowerOff.Click += new System.EventHandler(this.tsmiPowerOff_Click);
             // 
             // frmMain
             // 
@@ -1740,7 +1840,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudVideoMultiPass)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVideoRateFactor)).EndInit();
             this.tabConfig.ResumeLayout(false);
+            this.tabConfigMediaInfo.ResumeLayout(false);
+            this.tabConfigMediaInfo.PerformLayout();
             this.cmsFileAdd.ResumeLayout(false);
+            this.cmsProfiles.ResumeLayout(false);
+            this.cmsPower.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1800,7 +1904,6 @@
         private System.Windows.Forms.Button btnAttachDel;
         private System.Windows.Forms.Button btnAttachAdd;
         private System.Windows.Forms.Button btnProfileSaveLoad;
-        private System.Windows.Forms.ComboBox cboProfile;
         private System.Windows.Forms.ComboBox cboFormat;
         private System.Windows.Forms.TextBox txtOutputPath;
         private System.Windows.Forms.Label lblOutputPath;
@@ -1883,5 +1986,16 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiImportYouTube;
         internal System.Windows.Forms.RichTextBox rtfConsole;
         private System.Windows.Forms.ListView lstFile;
+        private System.Windows.Forms.ToolStripMenuItem tsmiImportImgSeq;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        internal System.Windows.Forms.ComboBox cboProfile;
+        private System.Windows.Forms.ContextMenuStrip cmsProfiles;
+        private System.Windows.Forms.ToolStripMenuItem tsmiProfilesSave;
+        private System.Windows.Forms.ToolStripMenuItem tsmiProfilesRename;
+        private System.Windows.Forms.ToolStripMenuItem tsmiProfilesDelete;
+        private System.Windows.Forms.ContextMenuStrip cmsPower;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPowerOff;
+        private System.Windows.Forms.TabPage tabConfigMediaInfo;
+        private System.Windows.Forms.TextBox txtMediaInfo;
     }
 }

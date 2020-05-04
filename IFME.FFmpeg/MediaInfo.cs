@@ -27,6 +27,11 @@ namespace IFME.FFmpeg
 		public List<StreamSubtitle> Subtitle { get; internal set; } = new List<StreamSubtitle>();
 		public List<StreamAttachment> Attachment { get; internal set; } = new List<StreamAttachment>();
 
+		public MediaInfo()
+		{
+
+		}
+
 		public MediaInfo(string path)
 		{
 			dynamic json = JsonConvert.DeserializeObject(new ReadFile().Media(path));
@@ -53,6 +58,7 @@ namespace IFME.FFmpeg
 					string lang = "und";
 					try { lang = stream.tags.language; }
 					catch (Exception ex) { Console.WriteLine(ex.Message); }
+					if (string.IsNullOrEmpty(lang)) lang = "und";
 
 					string codec = "unknown";
 					try { codec = stream.codec_name; }
@@ -137,6 +143,11 @@ namespace IFME.FFmpeg
 					try { id = stream.index; }
 					catch (Exception ex) { Console.WriteLine(ex.Message); }
 
+					string lang = "und";
+					try { lang = stream.tags.language; }
+					catch (Exception ex) { Console.WriteLine(ex.Message); }
+					if (string.IsNullOrEmpty(lang)) lang = "und";
+
 					string codec = "unknown";
 					try { codec = stream.codec_name; }
 					catch (Exception ex) { Console.WriteLine(ex.Message); }
@@ -152,10 +163,6 @@ namespace IFME.FFmpeg
 					int channel = 2;
 					try { channel = stream.channels; }
 					catch(Exception ex) { Console.WriteLine(ex.Message); }
-
-					string lang = "und";
-					try { lang = stream.tags.language; }
-					catch (Exception ex) { Console.WriteLine(ex.Message); }
 
 					if (bitdepth == 0) bitdepth = 16;
 					else if (bitdepth >= 32) bitdepth = 24;
@@ -178,12 +185,13 @@ namespace IFME.FFmpeg
 					try { id = stream.index; }
 					catch (Exception ex) { Console.WriteLine(ex.Message); }
 
-					string codec = "unknown";
-					try { codec = stream.codec_name; }
-					catch (Exception ex) { Console.WriteLine(ex.Message); }
-
 					string lang = "und";
 					try { lang = stream.tags.language; }
+					catch (Exception ex) { Console.WriteLine(ex.Message); }
+					if (string.IsNullOrEmpty(lang)) lang = "und";
+
+					string codec = "unknown";
+					try { codec = stream.codec_name; }
 					catch (Exception ex) { Console.WriteLine(ex.Message); }
 
 					Subtitle.Add(new StreamSubtitle
@@ -216,6 +224,67 @@ namespace IFME.FFmpeg
 					});
 				}
 			}
+		}
+
+		public static string Print(MediaInfo value)
+		{
+			var info = $"General{Environment.NewLine}" +
+				$"Complete name               : {value.FilePath}{Environment.NewLine}" +
+				$"Format                      : {value.FormatName} ({value.FormatNameFull}){Environment.NewLine}" +
+				$"File size                   : {value.FileSize} bytes{Environment.NewLine}" +
+				$"Duration                    : {value.Duration} seconds{Environment.NewLine}" +
+				$"Overall bit rate            : {value.BitRate} bps{Environment.NewLine}";
+
+			var v = 0;
+			var video = string.Empty;
+			foreach (var item in value.Video)
+			{
+				video += $"{Environment.NewLine}Video #{v++}{Environment.NewLine}" +
+					$"ID                          : {item.Id}{Environment.NewLine}" +
+					$"Format                      : {item.Codec}{Environment.NewLine}" +
+					$"Width                       : {item.Width}{Environment.NewLine}" +
+					$"Height                      : {item.Height}{Environment.NewLine}" +
+					$"Frame rate mode             : {(item.FrameRateConstant ? "Constant" : "Variable")}{Environment.NewLine}" +
+					$"Frame rate                  : {item.FrameRate} FPS ({item.FrameRateAvg} FPS){Environment.NewLine}" +
+					$"Chroma subsampling          : {item.Chroma}{Environment.NewLine}" +
+					$"Bit depth                   : {item.BitDepth} bits{Environment.NewLine}" +
+					$"Language                    : {item.Language}{Environment.NewLine}";
+			}
+
+			var a = 0;
+			var audio = string.Empty;
+			foreach (var item in value.Audio)
+			{
+				audio += $"{Environment.NewLine}Audio #{a++}{Environment.NewLine}" +
+					$"ID                          : {item.Id}{Environment.NewLine}" +
+					$"Format                      : {item.Codec}{Environment.NewLine}" +
+					$"Channel(s)                  : {item.Channel}{Environment.NewLine}" +
+					$"Sampling rate               : {item.SampleRate} Hz{Environment.NewLine}" +
+					$"Bit Depth                   : {item.BitDepth} bits{Environment.NewLine}" +
+					$"Language                    : {item.Language}{Environment.NewLine}";
+			}
+
+			var s = 0;
+			var subtitle = string.Empty;
+			foreach (var item in value.Subtitle)
+			{
+				subtitle += $"{Environment.NewLine}Subtitles #{s++}{Environment.NewLine}" +
+					$"ID                          : {item.Id}{Environment.NewLine}" +
+					$"Format                      : {item.Codec}{Environment.NewLine}" +
+					$"Language                    : {item.Language}{Environment.NewLine}";
+			}
+
+			var t = 0;
+			var attach = string.Empty;
+			foreach (var item in value.Attachment)
+			{
+				attach += $"{Environment.NewLine}Attachments #{t++}{Environment.NewLine}" +
+					$"ID                          : {item.Id}{Environment.NewLine}" +
+					$"Name                        : {item.FileName}{Environment.NewLine}" +
+					$"MIME                        : {item.MimeType}{Environment.NewLine}";
+			}
+
+			return info + video + audio + subtitle + attach;
 		}
 	}
 }

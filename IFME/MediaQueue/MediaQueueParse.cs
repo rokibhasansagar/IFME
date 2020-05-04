@@ -33,6 +33,8 @@ namespace IFME
 				{
 					Width = data.Width,
 					Height = data.Height,
+					OriginalWidth = data.Width,
+					OriginalHeight = data.Height,
 					FrameRate = (float)Math.Round(data.FrameRateAvg, 3),
 					FrameRateAvg = data.FrameRateAvg,
 					FrameCount = (int)Math.Ceiling(data.Duration * data.FrameRate),
@@ -65,8 +67,8 @@ namespace IFME
 					Id = new Guid("deadbeef-0aac-0aac-0aac-0aac0aac0aac"),
 					Mode = 0,
 					Quality = 128,
-					SampleRate = 48000,
-					Channel = 2,
+					SampleRate = data.SampleRate,
+					Channel = data.Channel,
 					Command = string.Empty
 				}
 			};

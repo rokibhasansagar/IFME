@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
+using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace IFME
 {
@@ -12,12 +11,13 @@ namespace IFME
 	{
 		public ProfilesManager()
 		{
+			Profiles.Items.Clear();
+
 			var path = Path.Combine("Profiles");
+			var folder = Path.Combine(Directory.GetCurrentDirectory(), path);
 
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
-
-			var folder = Path.Combine(Directory.GetCurrentDirectory(), path);
 
 			foreach (var item in Directory.EnumerateFiles(folder, "Profile_*.json", SearchOption.AllDirectories).OrderBy(file => file))
 			{
@@ -26,12 +26,48 @@ namespace IFME
 					var json = File.ReadAllText(item);
 					var profile = JsonConvert.DeserializeObject<Profiles>(json);
 
+					profile.ProfilePath = item;
+
 					Profiles.Items.Add(profile);
 				}
 				catch (Exception ex)
 				{
 					Console2.WriteLine($"[WARN] {ex.Message}");
 				}
+			}
+		}
+
+		public static void Save(string name, MediaContainer container, ProfilesVideo video, ProfilesAudio audio)
+		{
+			var data = new Profiles
+			{
+				ProfileName = name,
+				ProfileAuthor = Properties.Settings.Default.Username,
+				Container = container,
+				Video = video,
+				Audio = audio
+			};
+
+			string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+			File.WriteAllText(Path.Combine("Profiles", $"Profile_{DateTime.UtcNow.ToString("yyyy-MM-dd_HH-mm-ss_ffff", CultureInfo.InvariantCulture)}.json"), json);
+		}
+
+		public static void Rename(int index)
+		{
+			if (index > -1)
+			{
+				var file = Profiles.Items[index].ProfilePath;
+				var json = JsonConvert.SerializeObject(Profiles.Items[index], Formatting.Indented);
+				File.WriteAllText(file, json);
+			}
+		}
+
+		public static void Delete(int index)
+		{
+			if (index > -1)
+			{
+				var file = Profiles.Items[index].ProfilePath;
+				File.Delete(file);
 			}
 		}
 
@@ -64,6 +100,7 @@ namespace IFME
 						PixelFormat = 420,
 						IsVFR = false,
 						Command = "",
+						CommandFilter = ""
 					},
 
 					DeInterlace = new MediaQueueVideoDeInterlace
@@ -85,7 +122,8 @@ namespace IFME
 						Command = "",
 					},
 					Copy = false,
-					Command = ""
+					Command = "",
+					CommandFilter = "",
 				}
 			};
 

@@ -48,6 +48,7 @@ namespace IFME
 				}
 			} while (ctrl != null);
 
+			txtMediaInfo.Font = Fonts.Uni(12f, FontStyle.Regular);
 			rtfConsole.Font = Fonts.Uni(12f, FontStyle.Regular);
 
 			btnFileAdd.Text = Fonts.fa.plus;
@@ -81,6 +82,7 @@ namespace IFME
 			btnOutputBrowse.Text = Fonts.fa.folder;
 
 			tabConfig.Font = Fonts.Awesome(10.5f, FontStyle.Regular);
+			tabConfigMediaInfo.Text = $"{Fonts.fa.info} {tabConfigMediaInfo.Text}";
 			tabConfigVideo.Text = $"{Fonts.fa.video_camera} {tabConfigVideo.Text}";
 			tabConfigAudio.Text = $"{Fonts.fa.volume_up} {tabConfigAudio.Text}";
 			tabConfigSubtitle.Text = $"{Fonts.fa.subscript} {tabConfigSubtitle.Text}";
@@ -98,6 +100,17 @@ namespace IFME
 				"\r\n" +
 				"Warning, DO NOT close this Terminal/Console, all useful info will be shown here.\r\n" +
 				"\r\n";
+		}
+
+		private void InitializeProfiles()
+		{
+			new ProfilesManager();
+
+			cboProfile.Items.Clear();
+			foreach (var item in Profiles.Items)
+				cboProfile.Items.Add(item.ProfileName);
+
+			cboProfile.SelectedIndex = cboProfile.Items.Count - 1;
 		}
 
 		private string[] OpenFiles(MediaType type)
@@ -143,14 +156,24 @@ namespace IFME
 			return Array.Empty<string>();
 		}
 
+		public static void EnableTab(TabPage page, bool enable)
+		{
+			foreach (Control ctrl in page.Controls)
+				ctrl.Enabled = enable;
+		}
+
 		private void MediaFileListAdd(string path)
 		{
 			var fileData = new FFmpeg.MediaInfo(path);
 			var fileQueue = new MediaQueue()
 			{
-				FilePath = path,
 				Enable = true,
+				FilePath = path,
+				FileSize = fileData.FileSize,
+				Duration = fileData.Duration,
+				InputFormat = fileData.FormatNameFull,
 				OutputFormat = MediaContainer.MKV,
+				Info = fileData
 			};
 
 			foreach (var item in fileData.Video)
@@ -168,9 +191,9 @@ namespace IFME
 			lstFile.Items.Add(new ListViewItem(new[]
 			{
 				Path.GetFileName(path),
-				TimeSpan.FromSeconds(fileData.Duration).ToString("hh\\:mm\\:ss"),
 				Path.GetExtension(path).Substring(1).ToUpperInvariant(),
-				$"{fileQueue.OutputFormat}",
+				TimeSpan.FromSeconds(fileData.Duration).ToString("hh\\:mm\\:ss"),
+				$"{fileData.FileSize}",
 				fileQueue.Enable ? "Ready" : "Done"
 			})
 			{
@@ -286,7 +309,12 @@ namespace IFME
 
 		private void MediaShowDataSubtitle(object obj)
 		{
+			var data = obj as MediaQueueSubtitle;
 
+			BeginInvoke((Action)delegate ()
+			{
+				cboSubLang.SelectedValue = data.Lang;
+			});
 		}
 
 		private void MediaShowDataAttachment(object obj)
@@ -328,6 +356,7 @@ namespace IFME
 				lstFile.Items[id].Selected = true;
 
 				// Re-select
+				lst.SelectedItems.Clear();
 				foreach (var i in index)
 				{
 					lst.Items[i].Selected = false;
@@ -459,15 +488,17 @@ namespace IFME
 						item.Quality.BitDepth = value.Video.Quality.BitDepth;
 						item.Quality.PixelFormat = value.Video.Quality.PixelFormat;
 						item.Quality.Command = value.Video.Quality.Command;
+						item.Quality.CommandFilter = value.Video.Quality.CommandFilter;
 
 						item.DeInterlace = value.Video.DeInterlace;
 					}
 
 					foreach (var item in (queue.Tag as MediaQueue).Audio)
 					{
+						item.Copy = value.Audio.Copy;
 						item.Encoder = value.Audio.Encoder;
 						item.Command = value.Audio.Command;
-						item.Copy = value.Audio.Copy;
+						item.CommandFilter = value.Audio.CommandFilter;
 					}
 				}
 
