@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace IFME
 {
@@ -15,6 +14,10 @@ namespace IFME
         [STAThread]
         static void Main()
         {
+            var culture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
             if (Properties.Settings.Default.UpgradeRequired)
             {
                 Properties.Settings.Default.Upgrade();
@@ -27,5 +30,5 @@ namespace IFME
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMain());
         }
-    }
+	}
 }

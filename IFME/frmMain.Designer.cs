@@ -152,6 +152,7 @@
             this.colFileDuration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colFileStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colFileProgress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnDonate = new System.Windows.Forms.Button();
             this.Seperator2 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
@@ -174,6 +175,12 @@
             this.tsmiProfilesDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsPower = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiPowerOff = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsFileAddSubs = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiFileAddSubs = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiFileAddSubsEmbed = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsFileAddAttach = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiFileAddAttach = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiFileAddAttachEmbed = new System.Windows.Forms.ToolStripMenuItem();
             this.tabConfigSubtitle.SuspendLayout();
             this.grpAudioCodec.SuspendLayout();
             this.tabConfigAudio.SuspendLayout();
@@ -193,6 +200,8 @@
             this.cmsFileAdd.SuspendLayout();
             this.cmsProfiles.SuspendLayout();
             this.cmsPower.SuspendLayout();
+            this.cmsFileAddSubs.SuspendLayout();
+            this.cmsFileAddAttach.SuspendLayout();
             this.SuspendLayout();
             // 
             // cboSubLang
@@ -395,7 +404,7 @@
             // btnOutputBrowse
             // 
             this.btnOutputBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOutputBrowse.Location = new System.Drawing.Point(764, 564);
+            this.btnOutputBrowse.Location = new System.Drawing.Point(988, 564);
             this.btnOutputBrowse.Name = "btnOutputBrowse";
             this.btnOutputBrowse.Size = new System.Drawing.Size(24, 24);
             this.btnOutputBrowse.TabIndex = 18;
@@ -780,7 +789,7 @@
             // btnProfileSaveLoad
             // 
             this.btnProfileSaveLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnProfileSaveLoad.Location = new System.Drawing.Point(764, 534);
+            this.btnProfileSaveLoad.Location = new System.Drawing.Point(988, 534);
             this.btnProfileSaveLoad.Name = "btnProfileSaveLoad";
             this.btnProfileSaveLoad.Size = new System.Drawing.Size(24, 24);
             this.btnProfileSaveLoad.TabIndex = 15;
@@ -797,7 +806,7 @@
             this.cboProfile.FormattingEnabled = true;
             this.cboProfile.Location = new System.Drawing.Point(274, 534);
             this.cboProfile.Name = "cboProfile";
-            this.cboProfile.Size = new System.Drawing.Size(484, 24);
+            this.cboProfile.Size = new System.Drawing.Size(708, 24);
             this.cboProfile.TabIndex = 14;
             this.cboProfile.SelectedIndexChanged += new System.EventHandler(this.cboProfile_SelectedIndexChanged);
             // 
@@ -820,7 +829,7 @@
             this.txtOutputPath.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtOutputPath.Location = new System.Drawing.Point(148, 564);
             this.txtOutputPath.Name = "txtOutputPath";
-            this.txtOutputPath.Size = new System.Drawing.Size(610, 24);
+            this.txtOutputPath.Size = new System.Drawing.Size(834, 24);
             this.txtOutputPath.TabIndex = 17;
             this.txtOutputPath.TextChanged += new System.EventHandler(this.txtOutputPath_TextChanged);
             // 
@@ -851,7 +860,7 @@
             this.PbxBanner.BackColor = System.Drawing.Color.Black;
             this.PbxBanner.Location = new System.Drawing.Point(0, 0);
             this.PbxBanner.Name = "PbxBanner";
-            this.PbxBanner.Size = new System.Drawing.Size(800, 64);
+            this.PbxBanner.Size = new System.Drawing.Size(1024, 64);
             this.PbxBanner.TabIndex = 27;
             this.PbxBanner.TabStop = false;
             // 
@@ -1522,7 +1531,7 @@
             this.tabConfig.Name = "tabConfig";
             this.tabConfig.Padding = new System.Drawing.Point(16, 4);
             this.tabConfig.SelectedIndex = 0;
-            this.tabConfig.Size = new System.Drawing.Size(776, 292);
+            this.tabConfig.Size = new System.Drawing.Size(1000, 292);
             this.tabConfig.TabIndex = 11;
             // 
             // tabConfigMediaInfo
@@ -1530,7 +1539,7 @@
             this.tabConfigMediaInfo.Controls.Add(this.txtMediaInfo);
             this.tabConfigMediaInfo.Location = new System.Drawing.Point(4, 24);
             this.tabConfigMediaInfo.Name = "tabConfigMediaInfo";
-            this.tabConfigMediaInfo.Size = new System.Drawing.Size(768, 264);
+            this.tabConfigMediaInfo.Size = new System.Drawing.Size(992, 264);
             this.tabConfigMediaInfo.TabIndex = 6;
             this.tabConfigMediaInfo.Text = "Media Info";
             this.tabConfigMediaInfo.UseVisualStyleBackColor = true;
@@ -1543,7 +1552,7 @@
             this.txtMediaInfo.Name = "txtMediaInfo";
             this.txtMediaInfo.ReadOnly = true;
             this.txtMediaInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMediaInfo.Size = new System.Drawing.Size(768, 264);
+            this.txtMediaInfo.Size = new System.Drawing.Size(992, 264);
             this.txtMediaInfo.TabIndex = 0;
             this.txtMediaInfo.WordWrap = false;
             // 
@@ -1559,13 +1568,14 @@
             this.colFileType,
             this.colFileDuration,
             this.colFileSize,
-            this.colFileStatus});
+            this.colFileStatus,
+            this.colFileProgress});
             this.lstFile.FullRowSelect = true;
             this.lstFile.GridLines = true;
             this.lstFile.HideSelection = false;
             this.lstFile.Location = new System.Drawing.Point(12, 114);
             this.lstFile.Name = "lstFile";
-            this.lstFile.Size = new System.Drawing.Size(776, 116);
+            this.lstFile.Size = new System.Drawing.Size(1000, 116);
             this.lstFile.TabIndex = 10;
             this.lstFile.UseCompatibleStateImageBehavior = false;
             this.lstFile.View = System.Windows.Forms.View.Details;
@@ -1577,33 +1587,38 @@
             // colFileName
             // 
             this.colFileName.Text = "Name";
-            this.colFileName.Width = 300;
+            this.colFileName.Width = 250;
             // 
             // colFileType
             // 
             this.colFileType.Text = "Type";
-            this.colFileType.Width = 100;
+            this.colFileType.Width = 80;
             // 
             // colFileDuration
             // 
             this.colFileDuration.Text = "Duration";
-            this.colFileDuration.Width = 100;
+            this.colFileDuration.Width = 80;
             // 
             // colFileSize
             // 
             this.colFileSize.Text = "Size";
-            this.colFileSize.Width = 100;
+            this.colFileSize.Width = 80;
             // 
             // colFileStatus
             // 
             this.colFileStatus.Text = "Status";
-            this.colFileStatus.Width = 150;
+            this.colFileStatus.Width = 130;
+            // 
+            // colFileProgress
+            // 
+            this.colFileProgress.Text = "Progress";
+            this.colFileProgress.Width = 354;
             // 
             // btnDonate
             // 
             this.btnDonate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDonate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDonate.Location = new System.Drawing.Point(584, 76);
+            this.btnDonate.Location = new System.Drawing.Point(808, 76);
             this.btnDonate.Name = "btnDonate";
             this.btnDonate.Size = new System.Drawing.Size(120, 32);
             this.btnDonate.TabIndex = 6;
@@ -1615,7 +1630,7 @@
             // 
             this.Seperator2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Seperator2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.Seperator2.Location = new System.Drawing.Point(710, 76);
+            this.Seperator2.Location = new System.Drawing.Point(934, 76);
             this.Seperator2.Name = "Seperator2";
             this.Seperator2.Size = new System.Drawing.Size(2, 32);
             this.Seperator2.TabIndex = 7;
@@ -1623,7 +1638,7 @@
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(718, 76);
+            this.btnStart.Location = new System.Drawing.Point(942, 76);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(32, 32);
             this.btnStart.TabIndex = 8;
@@ -1634,7 +1649,7 @@
             // btnStop
             // 
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStop.Location = new System.Drawing.Point(756, 76);
+            this.btnStop.Location = new System.Drawing.Point(980, 76);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(32, 32);
             this.btnStop.TabIndex = 9;
@@ -1644,7 +1659,7 @@
             // btnFileDown
             // 
             this.btnFileDown.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnFileDown.Location = new System.Drawing.Point(403, 76);
+            this.btnFileDown.Location = new System.Drawing.Point(515, 76);
             this.btnFileDown.Name = "btnFileDown";
             this.btnFileDown.Size = new System.Drawing.Size(32, 32);
             this.btnFileDown.TabIndex = 5;
@@ -1654,7 +1669,7 @@
             // btnFileUp
             // 
             this.btnFileUp.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnFileUp.Location = new System.Drawing.Point(365, 76);
+            this.btnFileUp.Location = new System.Drawing.Point(477, 76);
             this.btnFileUp.Name = "btnFileUp";
             this.btnFileUp.Size = new System.Drawing.Size(32, 32);
             this.btnFileUp.TabIndex = 4;
@@ -1790,11 +1805,57 @@
             this.tsmiPowerOff.Text = "Shutdown when complete";
             this.tsmiPowerOff.Click += new System.EventHandler(this.tsmiPowerOff_Click);
             // 
+            // cmsFileAddSubs
+            // 
+            this.cmsFileAddSubs.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.cmsFileAddSubs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiFileAddSubs,
+            this.tsmiFileAddSubsEmbed});
+            this.cmsFileAddSubs.Name = "cmsFileAddSubs";
+            this.cmsFileAddSubs.Size = new System.Drawing.Size(180, 48);
+            // 
+            // tsmiFileAddSubs
+            // 
+            this.tsmiFileAddSubs.Name = "tsmiFileAddSubs";
+            this.tsmiFileAddSubs.Size = new System.Drawing.Size(179, 22);
+            this.tsmiFileAddSubs.Text = "Add &Subtitle File";
+            this.tsmiFileAddSubs.Click += new System.EventHandler(this.tsmiFileAddSubs_Click);
+            // 
+            // tsmiFileAddSubsEmbed
+            // 
+            this.tsmiFileAddSubsEmbed.Name = "tsmiFileAddSubsEmbed";
+            this.tsmiFileAddSubsEmbed.Size = new System.Drawing.Size(179, 22);
+            this.tsmiFileAddSubsEmbed.Text = "Add &Embeded Subtitle";
+            this.tsmiFileAddSubsEmbed.Click += new System.EventHandler(this.tsmiFileAddSubsEmbed_Click);
+            // 
+            // cmsFileAddAttach
+            // 
+            this.cmsFileAddAttach.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.cmsFileAddAttach.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiFileAddAttach,
+            this.tsmiFileAddAttachEmbed});
+            this.cmsFileAddAttach.Name = "cmsFileAddAttach";
+            this.cmsFileAddAttach.Size = new System.Drawing.Size(171, 48);
+            // 
+            // tsmiFileAddAttach
+            // 
+            this.tsmiFileAddAttach.Name = "tsmiFileAddAttach";
+            this.tsmiFileAddAttach.Size = new System.Drawing.Size(170, 22);
+            this.tsmiFileAddAttach.Text = "Add &Fonts File";
+            this.tsmiFileAddAttach.Click += new System.EventHandler(this.tsmiFileAddAttach_Click);
+            // 
+            // tsmiFileAddAttachEmbed
+            // 
+            this.tsmiFileAddAttachEmbed.Name = "tsmiFileAddAttachEmbed";
+            this.tsmiFileAddAttachEmbed.Size = new System.Drawing.Size(170, 22);
+            this.tsmiFileAddAttachEmbed.Text = "Add &Embeded Fonts";
+            this.tsmiFileAddAttachEmbed.Click += new System.EventHandler(this.tsmiFileAddAttachEmbed_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(800, 600);
+            this.ClientSize = new System.Drawing.Size(1024, 600);
             this.Controls.Add(this.btnOutputBrowse);
             this.Controls.Add(this.btnProfileSaveLoad);
             this.Controls.Add(this.cboProfile);
@@ -1845,6 +1906,8 @@
             this.cmsFileAdd.ResumeLayout(false);
             this.cmsProfiles.ResumeLayout(false);
             this.cmsPower.ResumeLayout(false);
+            this.cmsFileAddSubs.ResumeLayout(false);
+            this.cmsFileAddAttach.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1985,7 +2048,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiImportFolder;
         private System.Windows.Forms.ToolStripMenuItem tsmiImportYouTube;
         internal System.Windows.Forms.RichTextBox rtfConsole;
-        private System.Windows.Forms.ListView lstFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiImportImgSeq;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         internal System.Windows.Forms.ComboBox cboProfile;
@@ -1997,5 +2059,13 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiPowerOff;
         private System.Windows.Forms.TabPage tabConfigMediaInfo;
         private System.Windows.Forms.TextBox txtMediaInfo;
+        private System.Windows.Forms.ContextMenuStrip cmsFileAddSubs;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileAddSubs;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileAddSubsEmbed;
+        private System.Windows.Forms.ContextMenuStrip cmsFileAddAttach;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileAddAttach;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileAddAttachEmbed;
+        private System.Windows.Forms.ColumnHeader colFileProgress;
+        internal System.Windows.Forms.ListView lstFile;
     }
 }

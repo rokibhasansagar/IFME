@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using IFME.OSManager;
 
 namespace IFME
 {
@@ -37,6 +38,8 @@ namespace IFME
 			bgThread.RunWorkerCompleted += bgThread_RunWorkerCompleted;
 
 			try { Directory.Delete(Path.Combine(Path.GetTempPath(), "IFME"), true); } catch { }
+
+			frmMainStatus = this;
 		}
 
 		private void frmMain_Load(object sender, EventArgs e)
@@ -262,7 +265,7 @@ namespace IFME
 					}
 					else
 					{
-						Console2.WriteLine("[WARN] Noting to encode...");
+						frmMain.PrintLog("[WARN] Noting to encode...");
 						btnStart.Text = Fonts.fa.play;
 					}
 				}
@@ -402,6 +405,7 @@ namespace IFME
 				lstAudio.Items.Clear();
 				lstSub.Items.Clear();
 				lstAttach.Items.Clear();
+				txtMediaInfo.Text = "FFmpeg Media Info ♥";
 			}
 
 			// Check queue consistency
@@ -593,7 +597,7 @@ namespace IFME
 			}
 			catch (Exception ex)
 			{
-				Console2.WriteLine($"[INFO] Selected format (container) doesn't support video: {ex.Message}");
+				frmMain.PrintLog($"[INFO] Selected format (container) doesn't support video: {ex.Message}");
 
 				//TabEna
 
@@ -1551,11 +1555,26 @@ namespace IFME
 			}
 		}
 
-		private void btnSubAdd_Click(object sender, EventArgs e)
+		private void tsmiFileAddSubs_Click(object sender, EventArgs e)
 		{
 			if (lstFile.SelectedItems.Count > 0)
 				foreach (var item in OpenFiles(MediaType.Subtitle))
 					MediaSubtitleListAdd(item);
+		}
+
+		private void tsmiFileAddSubsEmbed_Click(object sender, EventArgs e)
+		{
+			if (lstFile.SelectedItems.Count > 0)
+				foreach (var item in OpenFiles(MediaType.Video | MediaType.Subtitle))
+					MediaSubtitleListAddEmbed(item);
+		}
+
+		private void btnSubAdd_Click(object sender, EventArgs e)
+		{
+			var btnSender = (Button)sender;
+			var ptLowerLeft = new Point(1, btnSender.Height);
+			ptLowerLeft = btnSender.PointToScreen(ptLowerLeft);
+			cmsFileAddSubs.Show(ptLowerLeft);
 		}
 
 		private void btnSubDel_Click(object sender, EventArgs e)
@@ -1695,11 +1714,26 @@ namespace IFME
 			}
 		}
 
-		private void btnAttachAdd_Click(object sender, EventArgs e)
+		private void tsmiFileAddAttach_Click(object sender, EventArgs e)
 		{
 			if (lstFile.SelectedItems.Count > 0)
 				foreach (var item in OpenFiles(MediaType.Attachment))
 					MediaAttachmentListAdd(item);
+		}
+
+		private void tsmiFileAddAttachEmbed_Click(object sender, EventArgs e)
+		{
+			if (lstFile.SelectedItems.Count > 0)
+				foreach (var item in OpenFiles(MediaType.Video | MediaType.Attachment))
+					MediaAttachmentListAddEmbed(item);
+		}
+
+		private void btnAttachAdd_Click(object sender, EventArgs e)
+		{
+			var btnSender = (Button)sender;
+			var ptLowerLeft = new Point(1, btnSender.Height);
+			ptLowerLeft = btnSender.PointToScreen(ptLowerLeft);
+			cmsFileAddAttach.Show(ptLowerLeft);
 		}
 
 		private void btnAttachDel_Click(object sender, EventArgs e)
@@ -1881,7 +1915,7 @@ namespace IFME
 			}
 			catch (Exception ex)
 			{
-				Console2.WriteLine(ex.Message);
+				frmMain.PrintLog(ex.Message);
 			}
 		}
 
@@ -1974,10 +2008,7 @@ namespace IFME
 				{
 					var tt = DateTime.Now;
 
-					lstFile.Invoke((MethodInvoker)delegate
-					{
-						lstFile.Items[id].SubItems[4].Text = "Encoding...";
-					});
+					MediaEncoding.CurrentIndex = id;
 
 					// Create Temporary Session Folder
 					var tses = Path.Combine(Path.GetTempPath(), "IFME", $"{Guid.NewGuid()}");
@@ -1997,12 +2028,13 @@ namespace IFME
 
 					// Delete Temporary Session Folder
 					try { Directory.Delete(tses, true); }
-					catch (Exception ex) { Console2.WriteLine($"[ERR ] {ex.Message}"); }
+					catch (Exception ex) { frmMain.PrintLog($"[ERR ] {ex.Message}"); }
 
 					lstFile.Invoke((MethodInvoker)delegate
 					{
 						lstFile.Items[id].Checked = false;
-						lstFile.Items[id].SubItems[4].Text = $"Done! ({DateTime.Now.Subtract(tt):dd\\.hh\\:mm\\:ss})";
+						lstFile.Items[id].SubItems[4].Text = $"Done!";
+						lstFile.Items[id].SubItems[5].Text = $"{DateTime.Now.Subtract(tt):dd\\.hh\\:mm\\:ss}";
 					});
 				}
 				else
@@ -2010,6 +2042,7 @@ namespace IFME
 					lstFile.Invoke((MethodInvoker)delegate
 					{
 						lstFile.Items[id].SubItems[4].Text = "Skip...";
+						lstFile.Items[id].SubItems[5].Text = "";
 					});
 				}
 			}
@@ -2028,17 +2061,18 @@ namespace IFME
 
 			if (e.Cancelled)
 			{
-				Console2.WriteLine("[WARN] Operation was canceled by user");
+				frmMain.PrintLog("[WARN] Operation was canceled by user");
 
 				foreach (ListViewItem item in lstFile.Items)
 				{
 					item.SubItems[4].Text = "Aborted!";
+					item.SubItems[5].Text = "";
 				}
 			}
 
 			if (!e.Cancelled && tsmiPowerOff.Checked)
 			{
-				Console2.WriteLine($"[WARN] Encoding complete, shutdown in few seconds...");
+				frmMain.PrintLog($"[WARN] Encoding complete, shutdown in few seconds...");
 				OS.PowerOff(3);
 				return;
 			}
