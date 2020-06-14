@@ -1,0 +1,32 @@
+version: 1.0.{build}
+
+os: Visual Studio 2019
+
+platform: Any CPU
+
+configuration:
+  - Debug
+  - Release
+
+branches:
+  only:
+    - "app"
+
+init:
+  - git config --global core.autocrlf input
+
+clone_folder: c:\projects\IFME
+
+shallow_clone: true 
+
+install:
+  - cd c:\projects
+  - git clone https://github.com/JamesNK/Newtonsoft.Json
+  - cd Newtonsoft.Json
+  - git checkout 10.0.2
+  - cd c:\projects
+
+build:
+  parallel: true                  # enable MSBuild parallel builds
+  project: IFME.sln               # path to Visual Studio solution or project
+  verbosity: normal               # MSBuild verbosity level : quiet|minimal|normal|detailed
